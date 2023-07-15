@@ -1,8 +1,5 @@
-import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/button';
 import { SignupForm } from '../components/SignUpForm';
 import { Link } from 'react-router-dom';
-import logo from '../assets/images/technet-logo-white.png';
 
 export default function Signup() {
   return (
@@ -22,13 +19,11 @@ export default function Signup() {
             <div className="relative">
               <div className="relative flex justify-center text-md">
                 <span className="bg-background px-2 text-muted-foreground">
-                  If you have no account? Now{' '}
+                  If you have an account? Now
                   <Link
                     to="/login"
                     className="underline underline-offset-4 hover:text-primary"
-                  >
-                    {' '}
-                    Login
+                  > Login
                   </Link>
                 </span>
               </div>

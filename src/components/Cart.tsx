@@ -13,6 +13,7 @@ import {
 } from 'react-icons/hi';
 import { Button } from './ui/button';
 import { IProduct } from '@/types/globalTypes';
+import banner from '../assets/images/book-application.png';
 
 export default function Cart() {
   //! Dummy data
@@ -41,7 +42,7 @@ export default function Cart() {
               key={product.name}
             >
               <div className="border-r pr-5 shrink-0">
-                <img src={product?.image} alt="" className="h-full" />
+                <img src={banner} alt="" className="h-full" />
               </div>
               <div className="px-2 w-full flex flex-col gap-3">
                 <h1 className="text-2xl self-center">{product?.name}</h1>
