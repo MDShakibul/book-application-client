@@ -1,9 +1,9 @@
 import BookCard from '@/components/BookCard';
-import { IProduct } from '@/types/globalTypes';
+import { IBook } from '@/types/globalTypes';
 import { useEffect, useState } from 'react';
 
 export default function Products() {
-  const [data, setData] = useState<IProduct[]>([]);
+  const [data, setData] = useState<IBook[]>([]);
   useEffect(() => {
     fetch('./data.json')
       .then((res) => res.json())
@@ -13,8 +13,8 @@ export default function Products() {
 
   return (
       <div className="container grid grid-cols-4 gap-12 pb-20">
-        {data?.map((product) => (
-          <BookCard product={product} />
+        {data?.map((book) => (
+          <BookCard book={book} />
         ))}
       </div>
   );

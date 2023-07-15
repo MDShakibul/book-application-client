@@ -3,11 +3,11 @@ import banner from '@/assets/images/banner.png';
 import { Link } from 'react-router-dom';
 import Footer from '@/layouts/Footer';
 import { useEffect, useState } from 'react';
-import { IProduct } from '@/types/globalTypes';
+import { IBook } from '@/types/globalTypes';
 import BookCard from '@/components/BookCard';
 
 export default function Home() {
-  const [data, setData] = useState<IProduct[]>([]);
+  const [data, setData] = useState<IBook[]>([]);
   useEffect(() => {
     fetch('./data.json')
       .then((res) => res.json())
@@ -40,7 +40,7 @@ export default function Home() {
         </h1>
         <div className="container grid grid-cols-4 gap-12 pb-20">
           {data?.slice(0, 10).map((product) => (
-            <BookCard product={product} />
+            <BookCard book={product} />
           ))}
         </div>
         <div className="flex flex-col items-center justify-center">

@@ -33,6 +33,7 @@ export default function AddBook() {
   const handleSubmit = () => {
     if (bookInfo.title.trim() === '' || bookInfo.author.trim() === '' || bookInfo.genre.trim() === '' || bookInfo.publicationDate.trim() === '') {
       toast({
+        variant: "destructive",
         title: 'Error',
         description: 'Please fill in all fields.'
       });
