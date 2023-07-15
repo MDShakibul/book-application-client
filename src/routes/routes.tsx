@@ -7,6 +7,8 @@ import Books from '@/pages/Books';
 import AddBook from '@/pages/AddBook';
 import Signup from '@/pages/Signup';
 import BookDetails from '@/pages/BookDetails';
+import WishList from '@/pages/WishList';
+import RecentRunningBook from '@/pages/RecentRunningBook';
 
 const routes = createBrowserRouter([
   {
@@ -29,17 +31,33 @@ const routes = createBrowserRouter([
         path: '/add-book',
         element: <AddBook />,
       },
+      {
+        path: '/wish-list',
+        element: <WishList />,
+      },
+      {
+        path: '/currently-running-list',
+        element: <RecentRunningBook />,
+      },
+      {
+        path: '/login',
+        element: <Login />,
+      },
+      {
+        path: '/signup',
+        element: <Signup />,
+      },
     ],
   },
   
-  {
+  /* {
     path: '/login',
     element: <Login />,
   },
   {
     path: '/signup',
     element: <Signup />,
-  },
+  }, */
   {
     path: '*',
     element: <NotFound />,

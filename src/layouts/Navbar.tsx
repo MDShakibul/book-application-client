@@ -9,8 +9,6 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
 } from '../components/ui/dropdown-menu';
-import { HiOutlineSearch } from 'react-icons/hi';
-import Cart from '../components/Cart';
 import logo from '../assets/images/book-application.png';
 
 export default function Navbar() {
@@ -19,7 +17,9 @@ export default function Navbar() {
       <div className="h-full w-full bg-white/60">
         <div className="flex items-center justify-between w-full md:max-w-7xl h-full mx-auto ">
           <div>
-            <img className="h-8" src={logo} alt="log" />
+            <Link to="/">
+              <img className="h-8" src={logo} alt="log" />
+            </Link>
           </div>
           <div>
             <ul className="flex items-center">
@@ -49,12 +49,16 @@ export default function Navbar() {
                   <DropdownMenuContent>
                     <DropdownMenuLabel>Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem className="cursor-pointer">
-                      Wish List
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer">
-                      Currently Reading or Read Soon
-                    </DropdownMenuItem>
+                    <Link to="/wish-list">
+                      <DropdownMenuItem className="cursor-pointer">
+                        Wish List
+                      </DropdownMenuItem>
+                    </Link>
+                    <Link to="/currently-running-list">
+                      <DropdownMenuItem className="cursor-pointer">
+                        Currently Reading or Read Soon
+                      </DropdownMenuItem>
+                    </Link>
                     <Link to="/login">
                       <DropdownMenuItem className="cursor-pointer">
                         Login

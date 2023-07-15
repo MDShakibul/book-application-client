@@ -4,10 +4,16 @@ import { Textarea } from './ui/textarea';
 import { FiSend } from 'react-icons/fi';
 
 const dummyComments = [
-  'Bhalo na',
-  'Ki shob ghori egula??',
-  'Eta kono product holo ??',
-  '200 taka dibo, hobe ??',
+  {
+    body: "test",
+    userEmail: "user_1@gmail.com",
+    createdAt: "sdfsdf"
+  },
+  {
+    body: "test",
+    userEmail: "user_1@gmail.com",
+    createdAt: "sdfsdf"
+  }
 ];
 
 export default function ProductReview() {
@@ -19,14 +25,15 @@ export default function ProductReview() {
           <FiSend />
         </Button>
       </div>
+
       <div className="mt-10">
         {dummyComments.map((comment, index) => (
-          <div key={index} className="flex gap-3 items-center mb-5">
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <p>{comment}</p>
+          <div key={index} className="gap-3 items-center mb-5">
+            <div className="flex gap-3 items-center mb-1">
+              <h1 className="text-md font-semibold">{comment.userEmail}</h1>
+              <p>{comment.createdAt}</p>
+            </div>
+            <p>{comment.body}</p>
           </div>
         ))}
       </div>
