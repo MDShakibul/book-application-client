@@ -1,4 +1,4 @@
-import ProductReview from '@/components/ProductReview';
+import BookReview from '@/components/BookReview';
 import { Button } from '@/components/ui/button';
 import { IProduct } from '@/types/globalTypes';
 import { useEffect, useState } from 'react';
@@ -33,10 +33,9 @@ export default function ProductDetails() {
               <li key={feature}>{feature}</li>
             ))}
           </ul>
-          <Button>Add to cart</Button>
         </div>
       </div>
-      <ProductReview />
+      <BookReview />
     </>
   );
 }
