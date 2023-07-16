@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
 import { Button } from '../components/ui/button';
 import { DropdownMenuSeparator } from '../components/ui/dropdown-menu';
@@ -10,8 +10,25 @@ import {
   DropdownMenuContent,
 } from '../components/ui/dropdown-menu';
 import logo from '../assets/images/book-application.png';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { useLogoutMutation } from '@/redux/api/apiSlice';
 
 export default function Navbar() {
+  const { token } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [logout, { isLoading, error }] = useLogoutMutation();
+  console.log(isLoading);
+  const handelLogOut = async() =>{
+    
+    logout(undefined).unwrap().then(() => {
+      console.log('Logout successful');
+      navigate('/');
+      
+    }).catch((error) => {
+      console.error('Logout failed:', error);
+    });
+  }
   return (
     <nav className="w-full h-16 fixed top backdrop-blur-lg z-10">
       <div className="h-full w-full bg-white/60">
@@ -49,29 +66,36 @@ export default function Navbar() {
                   <DropdownMenuContent>
                     <DropdownMenuLabel>Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <Link to="/wish-list">
-                      <DropdownMenuItem className="cursor-pointer">
-                        Wish List
-                      </DropdownMenuItem>
-                    </Link>
-                    <Link to="/currently-running-list">
-                      <DropdownMenuItem className="cursor-pointer">
-                        Currently Reading or Read Soon
-                      </DropdownMenuItem>
-                    </Link>
-                    <Link to="/login">
-                      <DropdownMenuItem className="cursor-pointer">
-                        Login
-                      </DropdownMenuItem>
-                    </Link>
-                    <Link to="/signup">
-                      <DropdownMenuItem className="cursor-pointer">
-                        Sign up
-                      </DropdownMenuItem>
-                    </Link>
-                    <DropdownMenuItem className="cursor-pointer">
-                      Logout
-                    </DropdownMenuItem>
+                    {token ? (
+                      <>
+                        <Link to="/wish-list">
+                          <DropdownMenuItem className="cursor-pointer">
+                            Wish List
+                          </DropdownMenuItem>
+                        </Link>
+                        <Link to="/currently-running-list">
+                          <DropdownMenuItem className="cursor-pointer">
+                            Currently Reading or Read Soon
+                          </DropdownMenuItem>
+                        </Link>
+                        <DropdownMenuItem className="cursor-pointer" onClick={handelLogOut}>
+                          Logout
+                        </DropdownMenuItem>
+                      </>
+                    ) : (
+                      <>
+                        <Link to="/login">
+                          <DropdownMenuItem className="cursor-pointer">
+                            Login
+                          </DropdownMenuItem>
+                        </Link>
+                        <Link to="/signup">
+                          <DropdownMenuItem className="cursor-pointer">
+                            Sign up
+                          </DropdownMenuItem>
+                        </Link>
+                      </>
+                    )}
                   </DropdownMenuContent>
                 </DropdownMenu>
               </li>

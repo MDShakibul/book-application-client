@@ -1,10 +1,9 @@
-import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import logo from '../assets/images/technet-logo-white.png';
 import { LoginForm } from '@/components/LoginForm';
 
 export default function Login() {
+
+  
   return (
     <>
       <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:px-0">

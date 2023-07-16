@@ -6,24 +6,54 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useCreateUserMutation } from '@/redux/api/apiSlice';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { registration } from '@/redux/features/auth/authSlice';
+import { useToast } from './ui/use-toast';
+import { useNavigate } from 'react-router-dom';
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function SignupForm({ className, ...props }: UserAuthFormProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  /* const [isLoading, setIsLoading] = React.useState<boolean>(false); */
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const { toast } = useToast();
 
-  async function onSubmit(event: React.SyntheticEvent) {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const [signup, { isLoading, isError, isSuccess }] = useCreateUserMutation();
+
+  const handleSubmit = async  (event: React.FormEvent) => {
     event.preventDefault();
-    setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-  }
+    const options = {
+      data: { email, password },
+    };
+
+    const response = await signup(options);
+    
+    if ('data' in response) {
+      dispatch(registration({token: response.data.data.accessToken as string}));
+      // Store the token in localStorage
+      localStorage.setItem('token', response.data.data.accessToken as string);
+      navigate('/');
+      
+    } else if ('error' in response) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'User Email Already Exist.',
+      });
+    }
+    
+
+  };
 
   return (
     <div className={cn('grid gap-6', className)} {...props}>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="grid gap-2">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
@@ -31,27 +61,25 @@ export function SignupForm({ className, ...props }: UserAuthFormProps) {
             </Label>
             <Input
               id="email"
+              name="email"
               placeholder="name@example.com"
               type="email"
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               disabled={isLoading}
             />
             <Input
               id="password"
+              name="password"
               placeholder="your password"
               type="password"
               autoCapitalize="none"
               autoCorrect="off"
-              disabled={isLoading}
-            />
-            <Input
-              id="password"
-              placeholder="confirm password"
-              type="password"
-              autoCapitalize="none"
-              autoCorrect="off"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               disabled={isLoading}
             />
           </div>
@@ -61,7 +89,6 @@ export function SignupForm({ className, ...props }: UserAuthFormProps) {
           </Button>
         </div>
       </form>
-      
     </div>
   );
 }

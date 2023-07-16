@@ -1,7 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
+import authReducher from './features/auth/authSlice';
+import { api } from './api/apiSlice';
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    auth: authReducher,
+    [api.reducerPath]: api.reducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(api.middleware),
 })
 
 
