@@ -1,4 +1,4 @@
-import React from 'react';
+
 import logo from '@/assets/images/book-application.png';
 import { RiFacebookBoxFill, RiInstagramLine } from 'react-icons/ri';
 export default function Footer() {

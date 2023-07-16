@@ -1,4 +1,3 @@
-import React from 'react';
 
 interface IProps {
   onChange: (dateValue: string) => void;

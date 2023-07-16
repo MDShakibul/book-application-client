@@ -1,7 +1,5 @@
 import BookReview from '@/components/BookReview';
 import { Button } from '@/components/ui/button';
-import { IBook } from '@/types/globalTypes';
-import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import defaulBook from '@/assets/images/default_book.png';
 import { Delete, Edit, List, Save } from 'lucide-react';
@@ -15,6 +13,8 @@ export default function ProductDetails() {
 
   const { data: book, isLoading, error } = useGetSingleBooksQuery(id);
   const [deleteBook, options] = useDeleteBookMutation();
+
+  console.log(options, isLoading, error);
 
   const handleDelete = () => {
     Swal.fire({

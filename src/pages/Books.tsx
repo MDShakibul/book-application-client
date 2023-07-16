@@ -1,6 +1,6 @@
 import BookCard from '@/components/BookCard';
 import { IBook } from '@/types/globalTypes';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { DatePickerWithPresets } from '@/components/ui/datePickerWithPreset';
@@ -38,6 +38,7 @@ export default function Products() {
 
 
   const { data, isLoading, error, refetch } = useGetAllBooksQuery(searchInfo);
+  console.log(isLoading, error);
 
   // Call the query hook whenever the component mounts
   const handleSubmit = () => {

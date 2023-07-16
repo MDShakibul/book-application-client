@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { DatePickerWithPresets } from '@/components/ui/datePickerWithPreset';
 import { Input } from '@/components/ui/input';
@@ -19,6 +19,7 @@ export default function EditBook() {
   });
   const [editableValue, setEditableValue] = useState(true);
   const { data: book, isLoading, error } = useGetSingleBooksQuery(id);
+  console.log(isLoading, error );
   if(book && editableValue){
     setBookInfo({
       title: book?.data?.title,
@@ -49,6 +50,7 @@ export default function EditBook() {
   };
 
   const [updateBook, options] = useUpdateBookMutation();
+  console.log(options);
   const handleSubmit = async() => {
     if (bookInfo.title.trim() === '' || bookInfo.author.trim() === '' || bookInfo.genre.trim() === '' || bookInfo.publicationDate.trim() === '') {
       toast({

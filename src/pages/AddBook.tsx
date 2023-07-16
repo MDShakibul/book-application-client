@@ -33,6 +33,7 @@ export default function AddBook() {
   };
   const navigate = useNavigate();
   const [addBook, options] = useAddBookMutation();
+  console.log(options);
   const handleSubmit = async() => {
     if (bookInfo.title.trim() === '' || bookInfo.author.trim() === '' || bookInfo.genre.trim() === '' || bookInfo.publicationDate.trim() === '') {
       toast({

@@ -1,23 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { usePostCommentMutation } from '@/redux/api/apiSlice';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { FiSend } from 'react-icons/fi';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { certificateDate } from '@/lib/utils';
 
-const dummyComments = [
-  {
-    body: "test",
-    userEmail: "user_1@gmail.com",
-    createdAt: "sdfsdf"
-  },
-  {
-    body: "test",
-    userEmail: "user_1@gmail.com",
-    createdAt: "sdfsdf"
-  }
-];
+
 
 interface IProps {
   id: string;
@@ -28,6 +17,7 @@ export default function ProductReview({ id, reviews }: IProps) {
   const [inputValue, setInputValue] = useState<string>('');
   const [postComment, options] =
   usePostCommentMutation();
+  console.log(options);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

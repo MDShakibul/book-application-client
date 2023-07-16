@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button';
 import banner from '@/assets/images/banner.png';
 import { Link } from 'react-router-dom';
 import Footer from '@/layouts/Footer';
-import { useEffect, useState } from 'react';
 import { IBook } from '@/types/globalTypes';
 import BookCard from '@/components/BookCard';
 import { useGetAllBooksQuery } from '@/redux/api/apiSlice';
@@ -10,6 +9,7 @@ import { useGetAllBooksQuery } from '@/redux/api/apiSlice';
 export default function Home() {
   //const [data, setData] = useState<IBook[]>([]);
   const { data, isLoading, error } = useGetAllBooksQuery(undefined);
+  console.log(isLoading, error );
 
   
   return (

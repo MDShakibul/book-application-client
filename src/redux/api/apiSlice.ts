@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../store';
 
@@ -27,7 +28,7 @@ const prepareHeaders = (
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/api/v1',
+    baseUrl: 'https://book-store-orpin-seven.vercel.app/api/v1',
     prepareHeaders,
   }),
   tagTypes: ['addNewBook', 'comment', 'updateBook', 'deleteBook'],

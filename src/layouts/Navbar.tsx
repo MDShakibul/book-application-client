@@ -20,7 +20,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [logout, options] = useLogoutMutation();
-  //console.log(isLoading);
+  console.log(options);
   const handelLogOut = async() =>{
     
     logout(undefined).unwrap().then(() => {

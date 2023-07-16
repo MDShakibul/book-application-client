@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useCreateUserMutation } from '@/redux/api/apiSlice';
-import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { useAppDispatch, } from '@/redux/hook';
 import { registration } from '@/redux/features/auth/authSlice';
 import { useToast } from './ui/use-toast';
 import { useNavigate } from 'react-router-dom';
@@ -24,6 +24,7 @@ export function SignupForm({ className, ...props }: UserAuthFormProps) {
   const navigate = useNavigate();
 
   const [signup, { isLoading, isError, isSuccess }] = useCreateUserMutation();
+  console.log(isError, isSuccess);
 
   const handleSubmit = async  (event: React.FormEvent) => {
     event.preventDefault();

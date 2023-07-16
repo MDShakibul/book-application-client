@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import * as React from 'react';
@@ -33,15 +34,16 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
   const navigate = useNavigate();
 
   const [signin, { isLoading, isError, isSuccess }] = useSignInMutation();
+  console.log(isError, isSuccess);
 
   const handleSubmit = async  (event: React.FormEvent) => {
     event.preventDefault();
 
-    const options = {
+    const values = {
       data: { email, password },
     };
 
-    const response = await signin(options);
+    const response = await signin(values);
     
     if ('data' in response) {
       dispatch(login({token: response.data.data.accessToken as string}));
