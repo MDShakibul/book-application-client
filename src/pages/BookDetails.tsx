@@ -13,7 +13,6 @@ export default function ProductDetails() {
   const { id } = useParams();
 
   const { data: book, isLoading, error } = useGetSingleBooksQuery(id);
-  console.log(book?.data);
 
   const handleDelete = () => {
     Swal.fire({
@@ -48,7 +47,7 @@ export default function ProductDetails() {
         <div className="w-[20%] space-y-3 flex-row">
           {book?.data?.isOwner && (
             <>
-              <Link to="/edit-book">
+              <Link  to={`/edit-book/${book?.data?._id}`}>
                 <Button className="flex">
                   <div className="flex items-center">
                     <Edit className="mr-2 h-3 w-3" /> Edit

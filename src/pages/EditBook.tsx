@@ -5,6 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { useParams } from 'react-router-dom'; // Import useParams to get the "id" parameter from the URL
+import { useGetSingleBooksQuery } from '@/redux/api/apiSlice';
+import { calenderDate } from '@/lib/utils';
 
 export default function EditBook() {
   const { id } = useParams(); // Get the "id" parameter from the URL
@@ -13,27 +15,22 @@ export default function EditBook() {
     title: '',
     author: '',
     genre: '',
-    publicationDate: ''
+    publicationDate: '',
   });
+  const [editableValue, setEditableValue] = useState(true);
+  const { data: book, isLoading, error } = useGetSingleBooksQuery(id);
+  if(book && editableValue){
+    setBookInfo({
+      title: book?.data?.title,
+      author: book?.data?.author,
+      genre: book?.data?.genre,
+      publicationDate: calenderDate(book?.data?.publicationDate)
+    });
+    setEditableValue(false)
+  }
 
-  useEffect(() => {
-    // Fetch the book details from the backend API using the "id" parameter
-    // Replace this with your actual API endpoint
-    fetch(`/api/books/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        // Populate the input fields with the fetched book details
-        setBookInfo({
-          title: data.title,
-          author: data.author,
-          genre: data.genre,
-          publicationDate: data.publicationDate
-        });
-      })
-      .catch((error) => {
-        console.error('Error fetching book details:', error);
-      });
-  }, [id]);
+  
+
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -107,6 +104,7 @@ export default function EditBook() {
                   onChange={handleDateChange}
                   id="publicationDate"
                   value={bookInfo.publicationDate}
+                  
                 />
               </div>
             </div>
