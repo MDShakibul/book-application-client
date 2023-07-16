@@ -77,9 +77,25 @@ export const api = createApi({
       invalidatesTags: ['comment'],
     }),
     getAllBooks: builder.query({
-      query: () => ({
-        url: `/books`,
-      }),
+      query: (searchInfo) => {
+        let queryParams = '';
+    
+        if (searchInfo?.searchTerm) {
+          queryParams += `searchTerm=${searchInfo.searchTerm}`;
+        }
+    
+        if (searchInfo?.genre) {
+          queryParams += `${queryParams ? '&' : ''}genre=${searchInfo.genre}`;
+        }
+    
+        if (searchInfo?.publicationYear) {
+          queryParams += `${queryParams ? '&' : ''}publicationYear=${searchInfo.publicationYear}`;
+        }
+    
+        return {
+          url: `/books${queryParams ? `?${queryParams}` : ''}`,
+        };
+      },
       providesTags: ['addNewBook', 'updateBook', 'deleteBook'],
     }),
     getSingleBooks: builder.query({

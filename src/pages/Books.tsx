@@ -5,14 +5,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { DatePickerWithPresets } from '@/components/ui/datePickerWithPreset';
 import { Button } from '@/components/ui/button';
+import { useGetAllBooksQuery } from '@/redux/api/apiSlice';
 
 export default function Products() {
-  const [data, setData] = useState<IBook[]>([]);
+/*   const [data, setData] = useState<IBook[]>([]);
   useEffect(() => {
     fetch('./data.json')
       .then((res) => res.json())
       .then((data) => setData(data));
-  }, []);
+  }, []); */
 
   const [searchInfo, setSearchInfo] = useState({
     searchTerm: '',
@@ -35,8 +36,13 @@ export default function Products() {
     }));
   };
 
+
+  const { data, isLoading, error, refetch } = useGetAllBooksQuery(searchInfo);
+
+  // Call the query hook whenever the component mounts
   const handleSubmit = () => {
-    console.log(searchInfo);
+    refetch();
+    console.log('adas');
   };
 
   return (
@@ -71,7 +77,7 @@ export default function Products() {
         <Button onClick={handleSubmit} >Search</Button>
       </div>
       <div className="container grid grid-cols-4 gap-12 pb-20">
-        {data?.map((book) => (
+        {data?.data?.map((book: IBook) => (
           <BookCard book={book} />
         ))}
       </div>
