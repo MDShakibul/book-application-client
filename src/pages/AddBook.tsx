@@ -4,6 +4,8 @@ import { DatePickerWithPresets } from '@/components/ui/datePickerWithPreset';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
+import { useAddBookMutation } from '@/redux/api/apiSlice';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function AddBook() {
@@ -29,8 +31,9 @@ export default function AddBook() {
       publicationDate: dateValue, // Use the dateValue received from the DatePicker
     }));
   };
-
-  const handleSubmit = () => {
+  const navigate = useNavigate()
+  const [addBook, options] = useAddBookMutation();
+  const handleSubmit = async() => {
     if (bookInfo.title.trim() === '' || bookInfo.author.trim() === '' || bookInfo.genre.trim() === '' || bookInfo.publicationDate.trim() === '') {
       toast({
         variant: "destructive",
@@ -39,7 +42,30 @@ export default function AddBook() {
       });
       return;
     }
-    console.log(bookInfo);
+
+    const value = {
+      data: { title: bookInfo.title, author:bookInfo.author, genre:bookInfo.genre, publicationDate:bookInfo.publicationDate },
+    };
+
+    const response = await addBook(value);
+    
+    if ('data' in response) {
+      toast({
+        title: 'Success',
+        description: "New Book Add Successfully",
+      });
+      navigate('/books')
+
+      
+      
+    } else if ('error' in response) {
+      console.log(response);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: "Something went wrong",
+      });
+    }
   };
 
 

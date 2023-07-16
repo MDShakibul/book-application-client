@@ -5,7 +5,6 @@ const prepareHeaders = (
   { getState }: { getState: () => any }
 ) => {
   const token = localStorage.getItem('token');
-  console.log();
   if (token) {
     headers.set('authorization', `${token}`);
   }
@@ -14,7 +13,11 @@ const prepareHeaders = (
 
 export const api = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/v1',prepareHeaders}),
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://localhost:5000/api/v1',
+    prepareHeaders,
+  }),
+  tagTypes: ['addNewBook', 'comment'],
   endpoints: (builder) => ({
     createUser: builder.mutation({
       query: ({ data }) => ({
@@ -27,7 +30,6 @@ export const api = createApi({
       query: ({ data }) => ({
         url: `/users/login`,
         method: 'POST',
-        prepareHeaders,
         body: data,
       }),
     }),
@@ -37,18 +39,43 @@ export const api = createApi({
         method: 'POST',
       }),
     }),
+    addBook: builder.mutation({
+      query: ({ data }) => ({
+        url: `/books/add-book`,
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: ['addNewBook'],
+    }),
+    postComment: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/books/create-comment/${id}`,
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['comment'],
+    }),
     getAllBooks: builder.query({
-      query: () =>({
+      query: () => ({
         url: `/books`,
-      })
+      }),
+      providesTags: ['addNewBook'],
     }),
     getSingleBooks: builder.query({
-      query: (id) =>({
+      query: (id) => ({
         url: `/books/${id}`,
-      })
+      }),
+      providesTags: ['comment'],
     }),
   }),
 });
 
-export const { useCreateUserMutation, useSignInMutation, useLogoutMutation, useGetAllBooksQuery, useGetSingleBooksQuery } =
-  api;
+export const {
+  useCreateUserMutation,
+  useSignInMutation,
+  useLogoutMutation,
+  useGetAllBooksQuery,
+  useGetSingleBooksQuery,
+  useAddBookMutation,
+  usePostCommentMutation
+} = api;

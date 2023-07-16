@@ -50,7 +50,6 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
       navigate('/');
       
     } else if ('error' in response) {
-      console.log(response);
       toast({
         variant: 'destructive',
         title: 'Error',

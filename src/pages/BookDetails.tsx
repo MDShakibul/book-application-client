@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import defaulBook from '@/assets/images/default_book.png';
 import { Delete, Edit, List, Save } from 'lucide-react';
-import Swal from 'sweetalert2'; 
+import Swal from 'sweetalert2';
 import { useGetSingleBooksQuery } from '@/redux/api/apiSlice';
 import { certificateDate } from '@/lib/utils';
 
@@ -13,6 +13,7 @@ export default function ProductDetails() {
   const { id } = useParams();
 
   const { data: book, isLoading, error } = useGetSingleBooksQuery(id);
+  console.log(book?.data);
 
   const handleDelete = () => {
     Swal.fire({
@@ -40,21 +41,31 @@ export default function ProductDetails() {
           <h1 className="text-3xl font-semibold">{book?.data?.title}</h1>
           <p className="text-xl">Author: {book?.data?.author}</p>
           <p className="text-xl">Genre: {book?.data?.genre}</p>
-          <p className="text-xl">Publication Date: {certificateDate(book?.data?.publicationDate)}</p>
+          <p className="text-xl">
+            Publication Date: {certificateDate(book?.data?.publicationDate)}
+          </p>
         </div>
         <div className="w-[20%] space-y-3 flex-row">
-          <Link to='/edit-book'>
-          <Button className="flex">
-            <div className="flex items-center">
-              <Edit className="mr-2 h-3 w-3" /> Edit
-            </div>
-          </Button>
-          </Link>
-          <Button className="flex" variant="destructive" onClick={handleDelete}>
-            <div className="flex items-center">
-              <Delete className="mr-2 h-3 w-3" /> Delete
-            </div>
-          </Button>
+          {book?.data?.isOwner && (
+            <>
+              <Link to="/edit-book">
+                <Button className="flex">
+                  <div className="flex items-center">
+                    <Edit className="mr-2 h-3 w-3" /> Edit
+                  </div>
+                </Button>
+              </Link>
+              <Button
+                className="flex"
+                variant="destructive"
+                onClick={handleDelete}
+              >
+                <div className="flex items-center">
+                  <Delete className="mr-2 h-3 w-3" /> Delete
+                </div>
+              </Button>
+            </>
+          )}
           <Button className="flex" variant="outline">
             <div className="flex items-center">
               <List className="mr-2 h-3 w-3" /> Add Wish List
@@ -72,7 +83,7 @@ export default function ProductDetails() {
           </Button>
         </div>
       </div>
-      <BookReview />
+      <BookReview id={id!} reviews = {book?.data?.review}/>
     </>
   );
 }

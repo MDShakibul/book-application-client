@@ -11,3 +11,4 @@ export const certificateDate = (date: Date) => {
 
   return today.getDate()  + ' ' + month[today.getMonth()]+ ', ' + today.getFullYear();
 };
+
