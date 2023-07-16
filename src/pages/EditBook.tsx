@@ -4,8 +4,8 @@ import { DatePickerWithPresets } from '@/components/ui/datePickerWithPreset';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
-import { useParams } from 'react-router-dom'; // Import useParams to get the "id" parameter from the URL
-import { useGetSingleBooksQuery } from '@/redux/api/apiSlice';
+import { useNavigate, useParams } from 'react-router-dom'; // Import useParams to get the "id" parameter from the URL
+import { useGetSingleBooksQuery, useUpdateBookMutation } from '@/redux/api/apiSlice';
 import { calenderDate } from '@/lib/utils';
 
 export default function EditBook() {
@@ -29,6 +29,7 @@ export default function EditBook() {
     setEditableValue(false)
   }
 
+  const navigate = useNavigate()
   
 
 
@@ -47,10 +48,42 @@ export default function EditBook() {
     }));
   };
 
-  const handleSubmit = () => {
-    // Add your logic here to send a request to update the book details in the backend
-    console.log('Updating book:', bookInfo);
-    // Show a toast notification to indicate that the book has been updated
+  const [updateBook, options] = useUpdateBookMutation();
+  const handleSubmit = async() => {
+    if (bookInfo.title.trim() === '' || bookInfo.author.trim() === '' || bookInfo.genre.trim() === '' || bookInfo.publicationDate.trim() === '') {
+      toast({
+        variant: "destructive",
+        title: 'Error',
+        description: 'Please fill in all fields.'
+      });
+      return;
+    }
+
+    const value = {
+      id: id,
+      data: { title: bookInfo.title, author:bookInfo.author, genre:bookInfo.genre, publicationDate:bookInfo.publicationDate },
+    };
+
+    const response = await updateBook(value);
+
+    if ('data' in response) {
+      toast({
+        title: 'Success',
+        description: "Book updated successfully",
+      });
+      navigate('/books')
+
+      
+      
+    } else if ('error' in response) {
+      console.log(response);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: "Something went wrong",
+      });
+    }
+    
     toast({
       title: 'Success',
       description: 'Book updated successfully.',

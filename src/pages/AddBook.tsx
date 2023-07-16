@@ -31,7 +31,7 @@ export default function AddBook() {
       publicationDate: dateValue, // Use the dateValue received from the DatePicker
     }));
   };
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [addBook, options] = useAddBookMutation();
   const handleSubmit = async() => {
     if (bookInfo.title.trim() === '' || bookInfo.author.trim() === '' || bookInfo.genre.trim() === '' || bookInfo.publicationDate.trim() === '') {

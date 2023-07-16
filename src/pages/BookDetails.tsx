@@ -2,17 +2,19 @@ import BookReview from '@/components/BookReview';
 import { Button } from '@/components/ui/button';
 import { IBook } from '@/types/globalTypes';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import defaulBook from '@/assets/images/default_book.png';
 import { Delete, Edit, List, Save } from 'lucide-react';
 import Swal from 'sweetalert2';
-import { useGetSingleBooksQuery } from '@/redux/api/apiSlice';
+import { useDeleteBookMutation, useGetSingleBooksQuery } from '@/redux/api/apiSlice';
 import { certificateDate } from '@/lib/utils';
 
 export default function ProductDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const { data: book, isLoading, error } = useGetSingleBooksQuery(id);
+  const [deleteBook, options] = useDeleteBookMutation();
 
   const handleDelete = () => {
     Swal.fire({
@@ -25,7 +27,10 @@ export default function ProductDetails() {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
+        console.log(id);
+        deleteBook(id)
         Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+        navigate('/books')
       }
     });
   };

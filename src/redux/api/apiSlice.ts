@@ -7,7 +7,6 @@ const prepareHeaders = (
 ) => {
   const token = (getState() as RootState).auth.token
 
-    // If we have a token set in state, let's assume that we should be passing it.
     if (token) {
       headers.set('authorization', `${token}`)
     }
@@ -31,7 +30,7 @@ export const api = createApi({
     baseUrl: 'http://localhost:5000/api/v1',
     prepareHeaders,
   }),
-  tagTypes: ['addNewBook', 'comment'],
+  tagTypes: ['addNewBook', 'comment', 'updateBook', 'deleteBook'],
   endpoints: (builder) => ({
     createUser: builder.mutation({
       query: ({ data }) => ({
@@ -53,6 +52,14 @@ export const api = createApi({
         method: 'POST',
       }),
     }),
+    updateBook: builder.mutation({
+      query: ({id, data }) => ({
+        url: `/books/${id}`,
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: ['updateBook'],
+    }),
     addBook: builder.mutation({
       query: ({ data }) => ({
         url: `/books/add-book`,
@@ -73,13 +80,20 @@ export const api = createApi({
       query: () => ({
         url: `/books`,
       }),
-      providesTags: ['addNewBook'],
+      providesTags: ['addNewBook', 'updateBook', 'deleteBook'],
     }),
     getSingleBooks: builder.query({
       query: (id) => ({
         url: `/books/${id}`,
       }),
       providesTags: ['comment'],
+    }),
+    deleteBook: builder.mutation({
+      query: (id) => ({
+        url: `/books/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['deleteBook'],
     }),
   }),
 });
@@ -91,5 +105,7 @@ export const {
   useGetAllBooksQuery,
   useGetSingleBooksQuery,
   useAddBookMutation,
-  usePostCommentMutation
+  usePostCommentMutation,
+  useUpdateBookMutation,
+  useDeleteBookMutation
 } = api;
