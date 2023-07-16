@@ -6,19 +6,13 @@ import { Link, useParams } from 'react-router-dom';
 import defaulBook from '@/assets/images/default_book.png';
 import { Delete, Edit, List, Save } from 'lucide-react';
 import Swal from 'sweetalert2'; 
+import { useGetSingleBooksQuery } from '@/redux/api/apiSlice';
+import { certificateDate } from '@/lib/utils';
 
 export default function ProductDetails() {
   const { id } = useParams();
 
-  //! Temporary code, should be replaced with redux
-  const [data, setData] = useState<IBook[]>([]);
-  useEffect(() => {
-    fetch('../../public/data.json')
-      .then((res) => res.json())
-      .then((data) => setData(data));
-  }, []);
-
-  //! Temporary code ends here
+  const { data: book, isLoading, error } = useGetSingleBooksQuery(id);
 
   const handleDelete = () => {
     Swal.fire({
@@ -43,10 +37,10 @@ export default function ProductDetails() {
           <img src={defaulBook} alt="" />
         </div>
         <div className="w-[40%] space-y-3">
-          <h1 className="text-3xl font-semibold">Tile book</h1>
-          <p className="text-xl">Author:</p>
-          <p className="text-xl">Genre:</p>
-          <p className="text-xl">Publication Date:</p>
+          <h1 className="text-3xl font-semibold">{book?.data?.title}</h1>
+          <p className="text-xl">Author: {book?.data?.author}</p>
+          <p className="text-xl">Genre: {book?.data?.genre}</p>
+          <p className="text-xl">Publication Date: {certificateDate(book?.data?.publicationDate)}</p>
         </div>
         <div className="w-[20%] space-y-3 flex-row">
           <Link to='/edit-book'>

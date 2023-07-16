@@ -37,8 +37,18 @@ export const api = createApi({
         method: 'POST',
       }),
     }),
+    getAllBooks: builder.query({
+      query: () =>({
+        url: `/books`,
+      })
+    }),
+    getSingleBooks: builder.query({
+      query: (id) =>({
+        url: `/books/${id}`,
+      })
+    }),
   }),
 });
 
-export const { useCreateUserMutation, useSignInMutation, useLogoutMutation } =
+export const { useCreateUserMutation, useSignInMutation, useLogoutMutation, useGetAllBooksQuery, useGetSingleBooksQuery } =
   api;

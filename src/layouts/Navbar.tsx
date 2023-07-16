@@ -12,17 +12,20 @@ import {
 import logo from '../assets/images/book-application.png';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { useLogoutMutation } from '@/redux/api/apiSlice';
+import { remove } from '@/redux/features/auth/authSlice';
 
 export default function Navbar() {
   const { token } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [logout, { isLoading, error }] = useLogoutMutation();
-  console.log(isLoading);
+  const [logout, options] = useLogoutMutation();
+  //console.log(isLoading);
   const handelLogOut = async() =>{
     
     logout(undefined).unwrap().then(() => {
-      console.log('Logout successful');
+      localStorage.removeItem('token');
+      dispatch(remove());
       navigate('/');
       
     }).catch((error) => {

@@ -5,15 +5,13 @@ import Footer from '@/layouts/Footer';
 import { useEffect, useState } from 'react';
 import { IBook } from '@/types/globalTypes';
 import BookCard from '@/components/BookCard';
+import { useGetAllBooksQuery } from '@/redux/api/apiSlice';
 
 export default function Home() {
-  const [data, setData] = useState<IBook[]>([]);
-  useEffect(() => {
-    fetch('./data.json')
-      .then((res) => res.json())
-      .then((data) => setData(data));
-  }, []);
+  //const [data, setData] = useState<IBook[]>([]);
+  const { data, isLoading, error } = useGetAllBooksQuery(undefined);
 
+  
   return (
     <>
       <div className="flex justify-between items-center h-[calc(100vh-80px)] max-w-7xl mx-auto ">
@@ -39,8 +37,8 @@ export default function Home() {
           Latest Books
         </h1>
         <div className="container grid grid-cols-4 gap-12 pb-20">
-          {data?.slice(0, 10).map((product) => (
-            <BookCard book={product} />
+          {data?.data?.slice(0, 10).map((book: IBook) => (
+            <BookCard book={book} key={book._id}/>
           ))}
         </div>
         <div className="flex flex-col items-center justify-center">

@@ -26,7 +26,7 @@ export default function AddBook() {
   const handleDateChange = (dateValue: string) => {
     setBookInfo((prevInfo) => ({
       ...prevInfo,
-      date: dateValue,
+      publicationDate: dateValue, // Use the dateValue received from the DatePicker
     }));
   };
 
@@ -52,8 +52,8 @@ export default function AddBook() {
           <div className="flex gap-5">
             <div className="w-full space-y-5">
               <div>
-                <Label htmlFor="book_title">Book Title</Label>
-                <Input type="text" id="book_title" className="mt-2" onChange={handleInputChange}/>
+                <Label htmlFor="title">Book Title</Label>
+                <Input type="text" id="title" className="mt-2" onChange={handleInputChange}/>
               </div>
               <div>
                 <Label htmlFor="author">Author</Label>
@@ -69,8 +69,11 @@ export default function AddBook() {
                 <Label className="mb-4" htmlFor="name">
                   Publication Date
                 </Label>
-                <DatePickerWithPresets onChange={handleDateChange}
-                  id="date" />
+                <DatePickerWithPresets
+                  onChange={handleDateChange}
+                  id="publicationDate"
+                  value={bookInfo.publicationDate}
+                />
               </div>
             </div>
           </div>
